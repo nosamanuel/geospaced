@@ -14,3 +14,6 @@ class TestModels(TestCase):
         metadata = pycountry.countries.get(alpha2=c.iso2)
         self.assertEqual(c.metadata, metadata)
 
+    def test_missing_metdata_is_none(self):
+        c = Country(iso2='SS')
+        self.assertEqual(c.metadata, None)
