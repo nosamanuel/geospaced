@@ -1,0 +1,56 @@
+country
+    - name
+    - slug
+    - iso2
+    - iso3
+    - contested_status
+    - shape
+    - capitol_name
+    - capitol_point
+    - languages
+    - flag
+    - population
+    - leaders
+    # GDP
+    # industries
+    # exports
+    # allies
+    # enemies
+
+fact
+    - country
+    - field
+    - prompt
+        - locate_country
+        - type_country
+        - locate_city
+        - type_city
+        - choose_flag
+        - build_flag
+        - type_list
+        - multiple_choice
+
+ignored_prompt
+    - field
+    - prompt
+
+user_fact
+    - user
+    - fact
+    - new / mature
+    - n_encounters
+    - first_encounter
+    - last_encounter
+    - next_due
+
+user_field
+    - user
+    - field
+
+encounter
+    - user
+    - fact
+    - timestamp
+    - correct
+    - response (JSON)
+    - correct_response (JSON)
