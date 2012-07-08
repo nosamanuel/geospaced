@@ -16,7 +16,7 @@ def main():
             }
         }, {
             'id': 'countries',
-            'src': 'maps/fixtures/countries/ne_10m_admin_0_sovereignty.shp',
+            'src': 'countries/fixtures/countries/ne_10m_admin_0_sovereignty.shp',
             'styles': {
                 'fill': 'EEE9E6',
             }
