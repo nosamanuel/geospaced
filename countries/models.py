@@ -8,16 +8,16 @@ class Country(models.Model):
     # Facts
     gdp = models.IntegerField(null=True)
     languages = models.TextField(null=True)
-    name = models.CharField(max_length=256)
+    name = models.CharField(max_length=256, unique=True)
     population = models.IntegerField(null=True)
     shape = models.MultiPolygonField()
 
     # Metadata
     color = models.IntegerField()
     contested = models.BooleanField(default=False)
-    iso2 = models.CharField(max_length=2)
-    iso3 = models.CharField(max_length=3)
-    slug = models.SlugField()
+    iso2 = models.CharField(max_length=2, unique=True)
+    iso3 = models.CharField(max_length=3, unique=True)
+    slug = models.SlugField(unique=True)
 
     class Meta:
         db_table = 'country'
