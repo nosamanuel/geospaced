@@ -2,5 +2,6 @@ Django==1.4
 Polygon==2.0.4
 PyYAML==3.10
 kartograph.py==0.2.2
+psycopg2==2.4.5
 pyshp==1.1.4
 wsgiref==0.1.2
