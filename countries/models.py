@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.gis.db import models
+import pycountry
 
 
 class Country(models.Model):
@@ -23,9 +24,19 @@ class Country(models.Model):
         db_table = 'country'
         verbose_name_plural = 'countries'
 
+    def __init__(self, *args, **kwargs):
+        super(Country, self).__init__(*args, **kwargs)
+        self._metadata = None
+
     def __unicode__(self):
         return self.name
 
     @property
     def flag_url(self):
         return '%sflags/%s.svg' % (settings.STATIC_URL, self.iso2.lower())
+
+    @property
+    def metadata(self):
+        if not self._metadata:
+            self._metadata = pycountry.countries.get(alpha2=self.iso2)
+        return self._metadata
