@@ -16,7 +16,7 @@ class CountryLayerMapping(LayerMapping):
     """
     mapping = {
         'gdp': 'GDP_MD_EST',
-        'name': 'NAME',
+        'name': 'SUBUNIT',
         'population': 'POP_EST',
         'shape': 'Geometry',
         'color': 'MAP_COLOR',
