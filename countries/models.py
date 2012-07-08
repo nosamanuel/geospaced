@@ -28,5 +28,4 @@ class Country(models.Model):
 
     @property
     def flag_url(self):
-        return '%sflags/%s.svg' % (settings.STATIC_URL, self.iso2)
-
+        return '%sflags/%s.svg' % (settings.STATIC_URL, self.iso2.lower())
