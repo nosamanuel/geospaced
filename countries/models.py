@@ -1,7 +1,20 @@
+from operator import itemgetter
+
 from django.conf import settings
 from django.contrib.gis.db import models
 from django_hstore import hstore
 import pycountry
+
+
+class Language(object):
+    def __init__(self, iso3, speakers):
+        self._language = pycountry.languages.get(bibliographic=iso3)
+        self.speakers = '%sM' % speakers
+
+    @property
+    def name(self):
+        name = self._language.name.split('; ')[0]
+        return name.replace(' languages', '')
 
 
 class Country(models.Model):
@@ -42,3 +55,11 @@ class Country(models.Model):
             setattr(self, '_metadata', metadata)
 
         return self._metadata
+
+    @property
+    def languages(self):
+        if not self.language_speakers:
+            return None
+        language_speakers = sorted(self.language_speakers.iteritems(),
+                                   key=itemgetter(1), reverse=True)
+        return [Language(*ls) for ls in language_speakers]

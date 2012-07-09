@@ -21,3 +21,10 @@ class TestModels(TestCase):
     def test_languages_dictionary(self):
         c = Country(language_speakers={'spa': 112})
         self.assertEqual(c.language_speakers['spa'], 112)
+
+    def test_languages(self):
+        c = Country(iso2='MX', language_speakers={'spa': 112, 'nah': 1.38})
+        self.assertEqual(c.languages[0].name, 'Spanish')
+        self.assertEqual(c.languages[0].speakers, '112M')
+        self.assertEqual(c.languages[1].name, 'Nahuatl')
+        self.assertEqual(c.languages[1].speakers, '1.38M')
