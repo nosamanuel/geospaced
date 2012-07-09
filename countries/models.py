@@ -5,7 +5,8 @@ from django.contrib.gis.db import models
 from django_hstore import hstore
 import pycountry
 
-from countries.utils import clean_language_name, get_language_translation
+from countries.utils import clean_language_name
+from countries.utils import get_language_translation
 
 
 class Language(object):

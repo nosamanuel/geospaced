@@ -10,15 +10,19 @@ def clean_language_name(name):
     return cleaned_name
 
 
-def get_language_translation(language):
+def get_translation(language, type):
     """Gets a translation from a pycountry language"""
     for attr in ('alpha2', 'bibliographic'):
         code = getattr(language, attr, None)
         if not code:
             continue
         try:
-            return translation('iso639', LOCALES_DIR, languages=[code])
+            return translation(type, LOCALES_DIR, languages=[code])
         except IOError:
             pass
 
     return None
+
+
+def get_language_translation(language):
+    return get_translation(language, 'iso639')
