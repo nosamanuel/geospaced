@@ -1,6 +1,7 @@
 Django==1.4
 Polygon==2.0.4
 PyYAML==3.10
+django-hstore==1.1.1
 kartograph.py==0.2.2
 psycopg2==2.4.5
 pycountry==0.14.1

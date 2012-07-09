@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.gis.db import models
+from django_hstore import hstore
 import pycountry
 
 
@@ -8,7 +9,7 @@ class Country(models.Model):
 
     # Facts
     gdp = models.IntegerField(null=True)
-    languages = models.TextField(null=True)
+    language_speakers = hstore.DictionaryField(null=True)
     name = models.CharField(max_length=256, unique=True)
     population = models.IntegerField(null=True)
     shape = models.MultiPolygonField()

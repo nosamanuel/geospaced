@@ -17,3 +17,7 @@ class TestModels(TestCase):
     def test_missing_metdata_is_none(self):
         c = Country(iso2='SS')
         self.assertEqual(c.metadata, None)
+
+    def test_languages_dictionary(self):
+        c = Country(language_speakers={'spa': 112})
+        self.assertEqual(c.language_speakers['spa'], 112)
