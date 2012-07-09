@@ -5,17 +5,28 @@ from django.contrib.gis.db import models
 from django_hstore import hstore
 import pycountry
 
-from countries.utils import clean_language_name
+from countries.utils import clean_language_name, get_language_translation
 
 
 class Language(object):
     def __init__(self, iso3, speakers):
-        self._language = pycountry.languages.get(bibliographic=iso3)
+        self.iso3 = iso3
         self.speakers = '%sM' % speakers
+
+        self._language = pycountry.languages.get(bibliographic=self.iso3)
+        self._translation = get_language_translation(self._language)
 
     @property
     def name(self):
         return clean_language_name(self._language.name)
+
+    @property
+    def endonym(self):
+        if self._translation:
+            name = self._translation.ugettext(self._language.name)
+            return clean_language_name(name)
+        else:
+            return None
 
 
 class Country(models.Model):
