@@ -9,6 +9,7 @@ import pycountry
 from countries.utils import clean_language_name
 from countries.utils import get_country_translation
 from countries.utils import get_language_translation
+from countries.utils import memoized_property
 
 
 class Language(object):
@@ -68,18 +69,14 @@ class Country(models.Model):
     def flag_url(self):
         return '%sflags/%s.svg' % (settings.STATIC_URL, self.iso2.lower())
 
-    @property
+    @memoized_property
     def metadata(self):
-        if not hasattr(self, '_metadata'):
-            try:
-                metadata = pycountry.countries.get(alpha2=self.iso2)
-            except KeyError:
-                metadata = None
-            setattr(self, '_metadata', metadata)
+        try:
+            return pycountry.countries.get(alpha2=self.iso2)
+        except KeyError:
+            return None
 
-        return self._metadata
-
-    @property
+    @memoized_property
     def languages(self):
         if not self.language_speakers:
             return None
@@ -87,7 +84,7 @@ class Country(models.Model):
                                    key=itemgetter(1), reverse=True)
         return [Language(*ls) for ls in language_speakers]
 
-    @property
+    @memoized_property
     def endonyms(self):
         country_translations = []
         for language in self.languages:

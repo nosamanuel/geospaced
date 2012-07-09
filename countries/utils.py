@@ -30,3 +30,15 @@ def get_language_translation(language):
 
 def get_country_translation(language):
     return get_translation(language, 'iso3166')
+
+
+def memoized_property(func):
+    attr = '_%s' % func.__name__
+
+    @property
+    def wrapped(self):
+        if not hasattr(self, attr):
+            setattr(self, attr, func(self))
+        return getattr(self, attr)
+
+    return wrapped
