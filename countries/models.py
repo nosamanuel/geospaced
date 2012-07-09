@@ -5,6 +5,8 @@ from django.contrib.gis.db import models
 from django_hstore import hstore
 import pycountry
 
+from countries.utils import clean_language_name
+
 
 class Language(object):
     def __init__(self, iso3, speakers):
@@ -13,8 +15,7 @@ class Language(object):
 
     @property
     def name(self):
-        name = self._language.name.split('; ')[0]
-        return name.replace(' languages', '')
+        return clean_language_name(self._language.name)
 
 
 class Country(models.Model):
