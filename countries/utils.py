@@ -26,3 +26,7 @@ def get_translation(language, type):
 
 def get_language_translation(language):
     return get_translation(language, 'iso639')
+
+
+def get_country_translation(language):
+    return get_translation(language, 'iso3166')

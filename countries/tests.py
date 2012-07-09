@@ -27,8 +27,13 @@ class TestModels(TestCase):
     def test_languages(self):
         c = Country(iso2='MX', language_speakers={'spa': 112, 'nah': 1.38})
         self.assertEqual(c.languages[0].name, 'Spanish')
-        self.assertEqual(c.languages[0].endonym, 'Español'.decode('utf8'))
+        self.assertEqual(c.languages[0].endonym.encode('utf8'), 'Español')
         self.assertEqual(c.languages[0].speakers, '112M')
         self.assertEqual(c.languages[1].name, 'Nahuatl')
         self.assertEqual(c.languages[1].endonym, None)
         self.assertEqual(c.languages[1].speakers, '1.38M')
+
+    def test_endonyms(self):
+        c = Country(iso2='MX', language_speakers={'spa': 112, 'nah': 1.38})
+        self.assertEqual(c.endonyms[0].language.name, 'Spanish')
+        self.assertEqual(c.endonyms[0].name.encode('utf8'), 'México')

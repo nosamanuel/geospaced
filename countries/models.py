@@ -1,3 +1,4 @@
+from collections import namedtuple
 from operator import itemgetter
 
 from django.conf import settings
@@ -6,6 +7,7 @@ from django_hstore import hstore
 import pycountry
 
 from countries.utils import clean_language_name
+from countries.utils import get_country_translation
 from countries.utils import get_language_translation
 
 
@@ -15,7 +17,8 @@ class Language(object):
         self.speakers = '%sM' % speakers
 
         self._language = pycountry.languages.get(bibliographic=self.iso3)
-        self._translation = get_language_translation(self._language)
+        self._language_translation = get_language_translation(self._language)
+        self._country_translation = get_country_translation(self._language)
 
     @property
     def name(self):
@@ -23,11 +26,18 @@ class Language(object):
 
     @property
     def endonym(self):
-        if self._translation:
-            name = self._translation.ugettext(self._language.name)
+        if self._language_translation:
+            name = self._language_translation.ugettext(self._language.name)
             return clean_language_name(name)
         else:
             return None
+
+    @property
+    def country_translation(self):
+        return self._country_translation
+
+
+Translation = namedtuple('Translation', ['language', 'name'])
 
 
 class Country(models.Model):
@@ -76,3 +86,14 @@ class Country(models.Model):
         language_speakers = sorted(self.language_speakers.iteritems(),
                                    key=itemgetter(1), reverse=True)
         return [Language(*ls) for ls in language_speakers]
+
+    @property
+    def endonyms(self):
+        country_translations = []
+        for language in self.languages:
+            if not language.country_translation:
+                continue
+            name = language.country_translation.ugettext(self.metadata.name)
+            translation = Translation(language, name)
+            country_translations.append(translation)
+        return country_translations
