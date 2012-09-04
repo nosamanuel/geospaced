@@ -7,6 +7,16 @@ from countries.models import Country
 from countries.utils import memoized_property
 
 
+class MuricaMixin(TestCase):
+    def setUp(self):
+        Country.objects.create(
+            name='United States of America',
+            slug='united-states-of-america',
+            color=1,
+            shape='MULTIPOLYGON (((1 2, 2 3, 3 4, 1 2)))'
+        )
+
+
 class TestModels(TestCase):
     def test_flag_url(self):
         c = Country(iso2='US')
@@ -38,6 +48,12 @@ class TestModels(TestCase):
         c = Country(iso2='MX', language_speakers={'spa': 112, 'nah': 1.38})
         self.assertEqual(c.endonyms[0].language.name, 'Spanish')
         self.assertEqual(c.endonyms[0].name.encode('utf8'), 'México')
+
+
+class TestViews(MuricaMixin, TestCase):
+    def test_country_detail(self):
+        response = self.client.get('/countries/united-states-of-america/')
+        self.assertEqual(response.status_code, 200)
 
 
 class TestUtils(TestCase):
